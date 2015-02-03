@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>myscript-math</title>
+
+  <script src="../../webcomponentsjs/webcomponents.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../myscript-math.html">
+</head>
+<body>
+
+  <!-- You use the document as a place to set up your fixtures. -->
+  <myscript-math></myscript-math>
+
+  <script>
+    var myEl = document.querySelector('myscript-math');
+
+    suite('<myscript-math>', function() {
+
+      test('Check myscript-math initialisation', function() {
+          assert.strictEqual('cloud.myscript.com', myEl.url);
+          assert.strictEqual('XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', myEl.applicationKey);
+          assert.strictEqual('XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', myEl.hmacKey);
+          assert.strictEqual('Math', myEl.type);
+      });
+
+    });
+  </script>
+
+</body>
+</html>
