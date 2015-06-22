@@ -1,0 +1,284 @@
+<!--
+Copyright © MyScript.
+LICENSE: github.com/MyScriptWebComponents/myscript-toolbar/blob/master/LICENSE
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/av-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<!--
+The `myscript-toolbar` is used to add action on MyScript handwriting recognition elements
+
+##### Example
+
+    <myscript-toolbar delete="true" undo="true" redo="true" play="true" settings="true" info="true"></myscript-toolbar>
+
+@element myscript-toolbar
+@blurb MyScript HTML5 toolbar Element to help developers integrate handwriting recognition.
+@status alpha
+@homepage http://myscriptwebcomponents.github.io/myscript-toolbar
+
+@demo demo/index.html Basic Demo
+-->
+<dom-module id="myscript-toolbar">
+    <link rel="import" type="css" href="myscript-toolbar.css">
+    <template>
+        <paper-toolbar class="myscript-theme">
+            <template is="dom-if" if="{{delete}}">
+                <paper-icon-button id="delete" icon="delete" on-tap="_deleteAction" disabled="{{_deleteDisabled}}"></paper-icon-button>
+            </template>
+            <template is="dom-if" if="{{undo}}">
+                <paper-icon-button id="undo" icon="undo"  on-tap="_undoAction" disabled="{{_undoDisabled}}"></paper-icon-button>
+            </template>
+            <template is="dom-if" if="{{redo}}">
+                <paper-icon-button id="redo" icon="redo"  on-tap="_redoAction" disabled="{{_redoDisabled}}"></paper-icon-button>
+            </template>
+            <span class="flex">
+                <template is="dom-if" if="{{play}}">
+                    <paper-icon-button id="play" icon="av:play-arrow"  on-tap="_playAction" disabled="{{_playDisabled}}"></paper-icon-button>
+                </template>
+                <content></content>
+            </span>
+            <template is="dom-if" if="{{settings}}">
+                <paper-icon-button id="settings" icon="settings"  on-tap="_settingsAction" disabled="{{_settingsDisabled}}"></paper-icon-button>
+            </template>
+            <template is="dom-if" if="{{info}}">
+                <paper-icon-button id="info" icon="info"  on-tap="_infoAction" disabled="{{_infoDisabled}}"></paper-icon-button>
+            </template>
+        </paper-toolbar>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+
+        is: 'myscript-toolbar',
+
+        /**
+         * <br>Fires when delete button is clicked.
+         *
+         * @event myscript-toolbar-delete
+         */
+
+        /**
+         * <br>Fires when undo button is clicked.
+         *
+         * @event myscript-toolbar-undo
+         */
+
+        /**
+         * <br>Fires when redo button is clicked.
+         *
+         * @event myscript-toolbar-redo
+         */
+
+        /**
+         * <br>Fires when play button is clicked.
+         *
+         * @event myscript-toolbar-play
+         */
+
+        /**
+         * <br>Fires when settings button is clicked.
+         *
+         * @event myscript-toolbar-settings
+         */
+
+        /**
+         * <br>Fires when info button is clicked.
+         *
+         * @event myscript-toolbar-info
+         */
+
+        properties: {
+
+            /**
+             * Shows the delete button
+             *
+             * @attribute delete
+             * @type boolean
+             * @default false
+             */
+            delete: {
+                type: Boolean,
+                value: false
+            },
+
+
+            /**
+             * Shows the undo button
+             *
+             * @attribute undo
+             * @type boolean
+             * @default false
+             */
+            undo: {
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * Shows the redo button
+             *
+             * @attribute redo
+             * @type boolean
+             * @default false
+             */
+            redo: {
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * Shows the play button
+             *
+             * @attribute play
+             * @type boolean
+             * @default false
+             */
+            play: {
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * Shows the settings button
+             *
+             * @attribute settings
+             * @type boolean
+             * @default false
+             */
+            settings: {
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * Shows the info button
+             *
+             * @attribute info
+             * @type boolean
+             * @default false
+             */
+            info: {
+                type: Boolean,
+                value: false
+            }
+        },
+
+        _deleteDisabled :{
+            type: Boolean,
+            value: false
+        },
+
+        _undoDisabled :{
+            type: Boolean,
+            value: false
+        },
+
+        _redoDisabled :{
+            type: Boolean,
+            value: false
+        },
+
+        _playDisabled :{
+            type: Boolean,
+            value: false
+        },
+
+        _settingsDisabled :{
+            type: Boolean,
+            value: false
+        },
+
+        _infoDisabled :{
+            type: Boolean,
+            value: false
+        },
+
+        /**
+         * Enables or disables the delete button
+         *
+         * @method disableDeleteButton
+         * @param value
+         */
+        disableDeleteButton: function(value){
+          this._deleteDisabled = value;
+        },
+
+        /**
+         * Enables or disables the undo button
+         *
+         * @method disableUndoButton
+         * @param value
+         */
+        disableUndoButton: function(value){
+            this._undoDisabled = value;
+        },
+
+        /**
+         * Enables or disables the redo button
+         *
+         * @method disableRedoButton
+         * @param value
+         */
+        disableRedoButton: function(value){
+            this._redoDisabled = value;
+        },
+
+        /**
+         * Enables or disables the play button
+         *
+         * @method disablePlayButton
+         * @param value
+         */
+        disablePlayButton: function(value){
+            this._playDisabled = value;
+        },
+
+        /**
+         * Enables or disables the settings button
+         *
+         * @method disableSettingsButton
+         * @param value
+         */
+        disableSettingsButton: function(value){
+            this._settingsDisabled = value;
+        },
+
+        /**
+         * Enables or disables the info button
+         *
+         * @method disableInfoButton
+         * @param value
+         */
+        disableInfoButton: function(value){
+            this._infoDisabled = value;
+        },
+
+        _deleteAction: function (){
+            this.fire('myscript-toolbar-delete');
+        },
+
+        _undoAction: function (){
+            this.fire('myscript-toolbar-undo');
+        },
+
+        _redoAction: function (){
+            this.fire('myscript-toolbar-redo');
+        },
+
+        _playAction: function (){
+            this.fire('myscript-toolbar-play');
+        },
+
+        _settingsAction: function (){
+            this.fire('myscript-toolbar-settings');
+        },
+
+        _infoAction: function (){
+            this.fire('myscript-toolbar-info');
+        }
+    });
+</script>

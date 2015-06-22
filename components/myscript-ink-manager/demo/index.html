@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+  <title>myscript-ink-manager Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../myscript-ink-manager.html">
+
+</head>
+<body>
+
+<myscript-ink-manager></myscript-ink-manager>
+
+<template is="dom-bind" >
+
+        <h2>Capture stroke 1</h2>
+        Capture strokes on ink manager : inkManager.startInkCapture(0, 0, 1428064394); <br>
+        Continue to capture strokes on ink manager : inkManager.continueInkCapture(0, 1, 1428064395); <br>
+        Finish to capture strokes on ink manager : inkManager.endInkCapture(0, 2, 1428064396); <br>
+
+        <h2>Capture stroke 2</h2>
+        Capture strokes on ink manager : inkManager.startInkCapture(21, 44, 1428064394); <br>
+        Continue to capture strokes on ink manager : inkManager.continueInkCapture(22, 45, 1428064395); <br>
+        Continue to capture strokes on ink manager : inkManager.continueInkCapture(23, 46, 1428064395); <br>
+        Finish to capture strokes on ink manager : inkManager.endInkCapture(24, 47, 1428064396); <br>
+
+        <h2>Actions on ink manager</h2>
+        Json of ink manager strokes array : <span>{{strokes}}</span><br>
+        <br>Length of strokes array in the ink manager : <span>{{nbrStrokes1}}</span><br>
+        <br>Undo the last capture stroke on ink manager : inkManager.undo(); <br>
+        <br>Length of strokes array in the ink manager : <span>{{nbrStrokes2}}</span><br>
+        <br>Redo the last capture stroke on ink manager : inkManager.redo(); <br>
+        <br>Length of strokes array in the ink manager : <span>{{nbrStrokes3}}</span><br>
+        <br>Clear all points on ink manager : inkManager.clear(); <br>
+        <br>Length of strokes array in the ink manager : <span>{{nbrStrokes4}}</span><br>
+</template>
+
+<script>
+    document.addEventListener('WebComponentsReady', function() {
+        var inkManager = document.querySelector('myscript-ink-manager'),
+                strokes = undefined,
+                nbrStrokes1 = 0,
+                nbrStrokes2 = 0,
+                nbrStrokes3 = 0,
+                nbrStrokes4 = 0;
+
+        // Capture stroke 1
+        inkManager.startInkCapture(0, 0, 1428064394);
+        inkManager.continueInkCapture(0, 1, 1428064395);
+        inkManager.endInkCapture(0, 2, 1428064396);
+
+        // Capture stroke 2
+        inkManager.startInkCapture(21, 44, 1428064394);
+        inkManager.continueInkCapture(22, 45, 1428064395);
+        inkManager.continueInkCapture(23, 46, 1428064395);
+        inkManager.endInkCapture(24, 47, 1428064396);
+
+        strokes = JSON.stringify(inkManager.getStrokes());
+
+        nbrStrokes1 = inkManager.getStrokes().length;
+
+        inkManager.undo();
+
+        nbrStrokes2 = inkManager.getStrokes().length;
+
+        inkManager.redo();
+
+        nbrStrokes3 = inkManager.getStrokes().length;
+
+        inkManager.clear();
+
+        nbrStrokes4 = inkManager.getStrokes().length;
+
+        document.querySelector('template').strokes = strokes;
+
+        document.querySelector('template').nbrStrokes1 = nbrStrokes1;
+        document.querySelector('template').nbrStrokes2 = nbrStrokes2;
+        document.querySelector('template').nbrStrokes3 = nbrStrokes3;
+        document.querySelector('template').nbrStrokes4 = nbrStrokes4;
+    });
+
+</script>
+</body>
+</html>

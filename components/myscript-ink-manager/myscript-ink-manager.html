@@ -1,0 +1,133 @@
+<!--
+Copyright © MyScript.
+LICENSE: github.com/MyScriptWebComponents/myscript-ink-manager/blob/master/LICENSE
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../myscript/myscript.html">
+<!--
+The `myscript-ink-manager` is used to manage ink for MyScript handwriting recognition.
+
+##### Example
+
+    <myscript-ink-manager></myscript-ink-manager>
+    ...
+    this.$.inkManager.startInkCapture(x, y, t);
+    this.$.inkManager.continueInkCapture(x, y, t);
+    this.$.inkManager.endInkCapture(x, y, t);
+
+@group MyScript Elements
+@element myscript-ink-manager
+@blurb MyScript ink manager Element to help developers draw handwriting ink on an HTML5 canvas.
+@status alpha
+@homepage http://myscriptwebcomponents.github.io/myscript-ink-manager
+
+@demo demo/index.html Basic Demo
+-->
+<script>
+(function() {
+
+    Polymer({
+
+        is: 'myscript-ink-manager',
+
+        /** @type {MyScript.InkManager} MyScript ink manager */
+        _inkManager: undefined,
+
+        /**
+         * Starts ink capture
+         *
+         * @method startInkCapture
+         * @param {Number} x x-axis coordinate
+         * @param {Number} y y-axis coordinate
+         * @param {TimeStamp} t event timestamp (OPTIONAL)
+         */
+        startInkCapture: function(x, y, t){
+            this._inkManager.startInkCapture(x, y, t);
+        },
+
+        /**
+         * Continues ink capture
+         *
+         * @method continueInkCapture
+         * @param {Number} x x-axis coordinate
+         * @param {Number} y y-axis coordinate
+         * @param {TimeStamp} t event timestamp (OPTIONAL)
+         */
+        continueInkCapture: function(x, y, t){
+            this._inkManager.continueInkCapture(x, y, t);
+        },
+
+        /**
+         * Ends ink capture
+         *
+         * @method endInkCapture
+         * @param {Number} x x-axis coordinate
+         * @param {Number} y y-axis coordinate
+         * @param {TimeStamp} t event timestamp (OPTIONAL)
+         */
+        endInkCapture: function(x, y, t){
+            this._inkManager.endInkCapture(x, y, t);
+        },
+
+        /**
+         * Gets the strokes list
+         *
+         * @method getStokes
+         * @returns {MyScript.Stroke[]}
+         */
+        getStrokes: function () {
+            return this._inkManager.getStrokes();
+        },
+
+        /**
+         * Clears the strokes list
+         *
+         * @method clear
+         */
+        clear: function () {
+            this._inkManager.clear();
+        },
+
+        /**
+         * Makes an undo
+         *
+         * @method undo
+         */
+        undo: function () {
+            this._inkManager.undo();
+        },
+
+        /**
+         * Makes a redo
+         *
+         * @method redo
+         */
+        redo: function () {
+            this._inkManager.redo();
+        },
+
+        /**
+         * Is the ink manager empty ?
+         *
+         * @method isEmpty
+         */
+        isEmpty: function () {
+            return this._inkManager.isEmpty();
+        },
+
+        /**
+         * Is the Redo Stack empty ?
+         *
+         * @method isRedoEmpty
+         */
+        isRedoEmpty: function () {
+            return  this._inkManager.isRedoEmpty();
+        },
+
+        ready: function() {
+            this._inkManager = new MyScript.InkManager();
+        }
+    });
+
+})();
+</script>

@@ -1,0 +1,33 @@
+{
+  "name": "myscript-ink-manager",
+  "version": "1.0.5",
+  "description": "MyScript HTML5 Ink Manager Element to help developer for integrate handwriting recognition.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "myscript",
+    "myscriptjs",
+    "myscriptwebcomponents",
+    "handwriting",
+    "recognition"
+  ],
+  "main": "myscript-ink-manager.html",
+  "license": "Apache-2",
+  "homepage": "https://github.com/MyScriptWebComponents/myscript-ink-manager/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "tests",
+    "test"
+  ],
+  "dependencies": {
+      "polymer": "Polymer/polymer#^1.0.0",
+      "myscript": "~1.0.x"
+  },
+  "devDependencies": {
+    "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

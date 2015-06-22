@@ -1,0 +1,9 @@
+:host {
+    display: block;
+}
+#resultField {
+    border: 1px solid #ddd;
+    margin: 1px;
+    min-height: 40px;
+    line-height: 40px;
+}

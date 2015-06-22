@@ -1,0 +1,190 @@
+<!--
+Copyright © MyScript.
+LICENSE: github.com/MyScriptWebComponents/myscript-canvas/blob/master/LICENSE
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<!--
+The `myscript-canvas` contains a HTML5 canvas with polyfill event management.
+The polyfill event manager handles down, track and up events.
+It is not a responsive component, resize event are managed by the component user.
+
+##### Example
+
+    <myscript-canvas></myscript-canvas>
+
+@group MyScript Elements
+@element myscript-canvas
+@blurb MyScript HTML5 canvas Element to help developers integrate handwriting recognition.
+@status alpha
+@homepage http://myscriptwebcomponents.github.io/myscript-canvas
+
+@demo demo/index.html Basic Demo
+-->
+<dom-module id="myscript-canvas">
+    <link rel="import" type="css" href="myscript-canvas.css">
+    <template>
+        <canvas id="canvas" width="{{width}}" height="{{height}}" touch-action="none"></canvas>
+    </template>
+</dom-module>
+
+<script>
+(function() {
+
+    Polymer({
+
+        is:'myscript-canvas',
+
+        behaviors: [
+            Polymer.IronResizableBehavior
+        ],
+
+        /**
+         * Fires when the polyfill event manager handles down event.
+         *
+         * @event myscript-canvas-down
+         * @param {Object} detail
+         * @param {Object} detail.event The event with polyfill offset coordinates
+         */
+
+        /**
+         * Fires when the polyfill event manager handles track event.
+         *
+         * @event myscript-canvas-track
+         * @param {Object} detail
+         * @param {Object} detail.event The event with polyfill offset coordinates
+         */
+
+        /**
+         * Fires when the polyfill event manager handles up event.
+         *
+         * @event myscript-canvas-up
+         * @param {Object} detail
+         * @param {Object} detail.event The event with polyfill offset coordinates
+         */
+
+        /**
+         * <br>Fires when resize event is handled.
+         *
+         * @event myscript-canvas-resize
+         */
+
+        properties: {
+
+            /**
+             * Width of the canvas. This attribute is <b>optional</b>, if is not set the canvas width is equal
+             * to the parent element width
+             *
+             * @attribute width
+             * @type Number
+             */
+            width: {
+                type: Number
+            },
+
+            /**
+             * Height of the canvas. This attribute is <b>optional</b>, if is not set the canvas height is equal
+             * to the default value 150 px
+             *
+             * @attribute height
+             * @type Number
+             */
+            height: {
+                type: Number,
+                value: 150
+            }
+
+        },
+
+        listeners: {
+            'iron-resize': '_onIronResize',
+            'down': '_handleDown',
+            'track': '_handleTrack',
+            'up': '_handleUp'
+        },
+
+        /** @type {HTMLCanvasElement} Html5 canvas of myscript-canvas element */
+        _canvas: undefined,
+
+        /** @type {CanvasRenderingContext2D} Html5 canvas of myscript-canvas element */
+        _context: undefined,
+
+        /** @type {Number} Scale use to compute Html5 canvas size */
+        _scale: undefined,
+
+        _getPixelRatio: function () {
+            if ('devicePixelRatio' in window) {
+                if (window.devicePixelRatio > 1) {
+                    return window.devicePixelRatio;
+                }
+            }
+            return 1;
+        },
+        _computeCoordinates: function (event){
+            var element = event.currentTarget,
+                offset = {x: 0, y: 0};
+
+            while (element.offsetParent) {
+                offset.x += element.offsetLeft;
+                offset.y += element.offsetTop;
+                element = element.offsetParent;
+            }
+
+            event.detail.x = event.detail.sourceEvent.pageX - offset.x;
+            event.detail.y = event.detail.sourceEvent.pageY - offset.y;
+        },
+        _init: function (){
+            this._canvas = this.$.canvas;
+            this._context = this._canvas.getContext('2d');
+            this._scale = this._getPixelRatio();
+        },
+        _onIronResize: function (){
+            this._canvas.width = this.width || this.clientWidth;
+            this._canvas.height = this.height;
+
+            this._context.lineWidth = 2 * this.scale;
+            this._context.lineCap = 'round';
+            this._context.lineJoin = 'round';
+            this._context.strokeStyle = 'rgb(0, 0, 0)';
+
+            this.fire('myscript-canvas-resize');
+        },
+        /**
+        * This method handles pointer down event and then fires <b>myscript-canvas-down</b>.
+        * @method handleDown
+        * @param {PointerEvent} e PointerDown event.
+        */
+        _handleDown: function(e) {
+                this._computeCoordinates(e);
+                this.fire('myscript-canvas-down', e);
+        },
+        /**
+         * This method handles pointer track event and then fires <b>myscript-canvas-track</b>
+         * @method handleTrack
+         * @param {PointerEvent} e PointerTrack event.
+         */
+        _handleTrack: function(e) {
+            if (e.detail.state === 'track') {
+                this._computeCoordinates(e);
+                this.fire('myscript-canvas-track', e);
+            }
+        },
+        /**
+         * This method handles pointer up event and then fires <b>myscript-canvas-up</b>
+         * @method handleUp
+         * @param {PointerEvent} e PointerUp event.
+         */
+        _handleUp: function(e) {
+                this._computeCoordinates(e);
+                this.fire('myscript-canvas-up', e);
+        },
+        ready: function () {
+            this._init();
+        },
+        attached: function() {
+            this.async(this._onIronResize, 1);
+        }
+    });
+
+})();
+</script>

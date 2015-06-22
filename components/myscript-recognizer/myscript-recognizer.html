@@ -1,0 +1,127 @@
+<!--
+Copyright © MyScript.
+LICENSE: github.com/MyScriptWebComponents/myscript-recognizer/blob/master/LICENSE
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../myscript/myscript.html">
+<!--
+The `myscript-recognizer` contains MyScript handwriting recognizer.<br>
+It is used to launch recognition to MyScript handwriting recognition server.
+
+##### Example
+
+    <myscript-recognizer url="cloud.myscript.com" applicationkey="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" hmackey="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" type="Text" ></myscript-recognizer>
+     ...
+    this.$.recognizer.doSimpleRecognition(instanceId, components, parameters);
+
+@group MyScript Elements
+@element myscript-recognizer
+@blurb MyScript recognizer Element to help developers launch MyScript recognition with ink on an HTML5 canvas.
+@status alpha
+@homepage http://myscriptwebcomponents.github.io/myscript-recognizer
+
+@demo demo/index.html Basic Demo
+-->
+<script>
+(function() {
+
+    Polymer({
+
+        is: 'myscript-recognizer',
+
+        properties: {
+
+            /**
+             * Url to use for MyScript handwriting recognition server
+             *
+             * @attribute url
+             * @type string
+             * @default 'cloud.myscript.com'
+             */
+            url: {
+                type: String,
+                value: 'cloud.myscript.com'
+            },
+
+            /**
+             * Application key to use for recognition on MyScript handwriting recognition server.<br>
+             * You have to create your own MyScript Developer account at http://dev.myscript.com and then generate your application key at http://cloud.myscript.com.<br>
+             * <b>Warning</b> : This parameter is <b>mandatory</b> and it's value should be a string.
+             *
+             * @attribute applicationkey
+             * @type string
+             */
+            applicationkey: String,
+
+            /**
+             * Hmac key to use for recognition on MyScript handwriting recognition server.<br>
+             * You have to create your own hmac key corresponding to your own application key on your account at http://cloud.myscript.com.<br>
+             * <b>Warning</b> : This parameter may be <b>mandatory</b> if HMAC signature security is enable for your application. The value should be a string.
+             *
+             * @attribute hmackey
+             * @type string
+             */
+            hmackey: String,
+
+            /**
+             * MyScript handwriting recognition type use to identify the type of recognition on MyScript handwriting recognition server.<br>
+             * Existing types are  Text, Math, Shape, Analyzer and Music.
+             *
+             * @attribute type
+             * @type string
+             * @default 'Text'
+             */
+            type: {
+                type: String,
+                value: 'Text'
+            }
+
+        },
+        /** @type {MyScript.AbstractRecognizer} MyScript recognizer */
+        _recognizer: undefined,
+
+        /**
+         * Returns a promise with the recognition result.
+         *
+         * @method doSimpleRecognition
+         * @param {String} instanceId Instance id of the current recognition session.
+         * @param {AbstractComponent[]} components Components array that contains strokes and others objects (chars, words, etc.)
+         * @param {AbstractParameter} parameters Parameters of recognition.
+         * @returns {QReturnValue} A promise with recognition result.
+         */
+        doSimpleRecognition: function(instanceId, components, parameters){
+            return this._recognizer.doSimpleRecognition(this.applicationkey, instanceId, components, this.hmackey, parameters).then(
+                    function success (response) {
+                        return response;
+                    },
+                    function error (response) {
+                        throw response;
+                    }
+            );
+        },
+        ready: function() {
+            switch (this.type) {
+                case 'Text':
+                    this._recognizer = new MyScript.TextRecognizer(this.url);
+                    break;
+                case 'Math':
+                    this._recognizer = new MyScript.MathRecognizer(this.url);
+                    break;
+                case 'Shape':
+                    this._recognizer = new MyScript.ShapeRecognizer(this.url);
+                    break;
+                case 'Analyzer':
+                    this._recognizer = new MyScript.AnalyzerRecognizer(this.url);
+                    break;
+                case 'Music':
+                    this._recognizer = new MyScript.MusicRecognizer(this.url);
+                    break;
+                default:
+                    this._recognizer = new MyScript.AbstractRecognizer(this.url);
+                    break;
+            }
+        }
+    });
+
+})();
+</script>

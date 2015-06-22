@@ -1,0 +1,143 @@
+<!--
+Copyright © MyScript.
+LICENSE: github.com/MyScriptWebComponents/myscript-renderer/blob/master/LICENSE
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../myscript/myscript.html">
+<!--
+The `myscript-renderer` contains MyScript handwriting renderer.<br>
+It is used to draw handwriting inks on an HTML5 canvas.
+
+##### Example
+
+    <myscript-renderer type='Text'></myscript-renderer>
+    ...
+    this.$.renderer.drawStart(x, y);
+    this.$.renderer.drawContinue(x, y, context, parameters);
+    this.$.renderer.drawEnd(x, y, context, parameters);
+
+@group MyScript Elements
+@element myscript-renderer
+@blurb MyScript Renderer Element to help developers draw handwriting ink on an HTML5 canvas.
+@status alpha
+@homepage http://myscriptwebcomponents.github.io/myscript-renderer
+
+@demo demo/index.html Basic Demo
+-->
+<script>
+(function() {
+
+    Polymer({
+
+        is : 'myscript-renderer',
+
+        properties: {
+            /**
+             * MyScript handwriting recognition type used to identify the type of Ink rendering.<br>
+             * Existing types are Text, Math, Shape, Analyzer and Music.
+             *
+             * @attribute type
+             * @type string
+             * @default 'Text'
+             */
+            type: {
+                type: String,
+                value: 'Text'
+            }
+        },
+
+        /** @type {MyScript.AbstractRenderer} MyScript renderer */
+        _renderer: undefined,
+
+        /**
+         * Starts to draw ink on HTML5 Canvas.
+         *
+         * @method drawStart
+         * @param {Number} x x-axis coordinate.
+         * @param {Number} y y-axis coordinate.
+         */
+        drawStart: function(x, y){
+            this._renderer.drawStart(x, y);
+        },
+        /**
+         * Continues to draw on HTML5 Canvas.
+         *
+         * @method drawContinue
+         * @param {Number} x x-axis coordinate.
+         * @param {Number} y y-axis coordinate.
+         * @param {CanvasRenderingContext2D} context Context of HTML5 canvas.
+         * @param {RenderingParameters} parameters Ink rendering Parameters on HTML5 canvas.
+         */
+        drawContinue: function(x, y, context, parameters){
+            this._renderer.drawContinue(x, y, context, parameters);
+        },
+        /**
+         * Stops drawing ink on HTML5 Canvas.
+         *
+         * @method drawEnd
+         * @param {Number} x x-axis coordinate.
+         * @param {Number} y y-axis coordinate.
+         * @param {CanvasRenderingContext2D} context Context of HTML5 canvas.
+         * @param {RenderingParameters} parameters Ink rendering Parameters on HTML5 canvas.
+         */
+        drawEnd: function(x, y, context, parameters){
+            this._renderer.drawEnd(x, y, context, parameters);
+        },
+        /**
+         * Draws existing strokes with ink on HTML5 Canvas.
+         *
+         * @method drawStrokes
+         * @param {Stroke[]} strokes Strokes to be drawn.
+         * @param {CanvasRenderingContext2D} context Context of HTML5 canvas.
+         * @param {RenderingParameters} parameters Ink rendering Parameters on HTML5 canvas.
+         */
+        drawStrokes: function (strokes, context, parameters) {
+            this._renderer.drawStrokes(strokes, context, parameters);
+        },
+        /**
+         * Clears HTML5 Canvas.
+         *
+         * @method clear
+         * @param {CanvasRenderingContext2D} context Context of HTML5 canvas.
+         */
+        clear: function(context){
+          this._renderer.clear(context);
+        },
+        /**
+         * Draws existing strokes with ink by recognition result on HTML5 Canvas.
+         *
+         * @method drawRecognitionResult
+         * @param {Stroke[]} strokes Strokes to be drawn.
+         * @param {AbstractResult} recognitionResult Recognition result used to draw ink on HTML5 canvas.
+         * @param {CanvasRenderingContext2D} context Context of HTML5 canvas.
+         * @param {RenderingParameters} parameters Ink rendering Parameters on HTML5 canvas.
+         */
+        drawRecognitionResult: function (strokes, recognitionResult, context, parameters){
+            this._renderer.drawRecognitionResult(strokes, recognitionResult, context, parameters);
+        },
+        ready: function() {
+            switch (this.type) {
+                case 'Text':
+                    this._renderer = new MyScript.TextRenderer();
+                    break;
+                case 'Math':
+                    this._renderer = new MyScript.MathRenderer();
+                    break;
+                case 'Shape':
+                    this._renderer = new MyScript.ShapeRenderer();
+                    break;
+                case 'Analyzer':
+                    this._renderer = new MyScript.AnalyzerRenderer();
+                    break;
+                case 'Music':
+                    this._renderer = new MyScript.MusicRenderer();
+                    break;
+                default:
+                    this._renderer = new MyScript.AbstractRenderer();
+                    break;
+            };
+        }
+    });
+
+})();
+</script>

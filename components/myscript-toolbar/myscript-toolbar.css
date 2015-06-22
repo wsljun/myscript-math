@@ -1,0 +1,18 @@
+:host {
+    display: inherit;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+paper-toolbar {
+    background-color: #00a7cf;
+    width: 100%;
+}
+
+paper-toolbar.myscript-theme {
+    background-color: #00a7cf;
+    color: #f1f1f1;
+    fill: #f1f1f1;
+}

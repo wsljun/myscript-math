@@ -1,0 +1,83 @@
+<!--
+Copyright © MyScript.
+LICENSE: github.com/MyScriptWebComponents/myscript-result/blob/master/LICENSE
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./katex.html">
+<!--
+The `myscript-result` is used to visualize the MyScript handwriting recognition result.
+
+##### Example
+
+    <myscript-result></myscript-result>
+
+@group MyScript Elements
+@element myscript-result
+@blurb MyScript HTML5 result Element to help developers integrate handwriting recognition result.
+@status alpha
+@homepage http://myscriptwebcomponents.github.io/myscript-result
+
+@demo demo/index.html Basic Demo
+-->
+<dom-module id="myscript-result">
+    <link rel="import" type="css" href="myscript-result.css">
+    <link rel="import" type="css" href="lib/katex/katex.min.css">
+    <template>
+        <div id="resultField" flex>Result</div>
+    </template>
+</dom-module>
+<script>
+(function () {
+
+    Polymer({
+
+        is: 'myscript-result',
+
+        // Result to display
+        _result: '',
+
+        /**
+         * Gets the result value of myscript-result
+         *
+         * @method getResult
+         */
+        getResult: function(){
+            return this._result;
+        },
+
+        /**
+         * Sets the result value of myscript-result
+         *
+         * @method setResult
+         */
+        setResult: function(result){
+          this._result = result;
+          if(typeof result !== "string") {
+              var resultElements = result.getMathDocument().getResultElements();
+              if(resultElements.length > 0) {
+                  for (var res in resultElements) {
+                      if (resultElements[res] instanceof MyScript.MathLaTexResultElement) {
+                          katex.render(resultElements[res].getValue(), this.$.resultField);
+                      }
+                  }
+              } else {
+                  this.$.resultField.innerHTML =  "";
+              }
+          }else{
+              this.$.resultField.innerHTML =  result;
+          }
+
+        },
+
+        /**
+         * Clears the result value of myscript-result
+         *
+         * @method clear
+         */
+        clear: function(){
+          this._result = '';
+          this.$.resultField.innerHTML =  "Result";
+        }
+    });
+})()
+</script>

@@ -1,0 +1,35 @@
+{
+  "name": "myscript-toolbar",
+  "version": "1.0.5",
+  "description": "MyScript HTML5 toolbar Element to help developer for integrate handwriting recognition",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "myscript",
+    "myscriptjs",
+    "myscriptwebcomponents",
+    "handwriting",
+    "recognition"
+  ],
+  "main": "myscript-toolbar.html",
+  "license": "Apache-2",
+  "homepage": "https://github.com/MyScriptWebComponents/myscript-toolbar/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "tests",
+    "test"
+  ],
+  "dependencies": {
+      "polymer": "Polymer/polymer#^1.0.0",
+      "paper-toolbar": "polymerelements/paper-toolbar#^1.0.0",
+      "iron-icons": "polymerelements/iron-icons#^1.0.0",
+      "paper-icon-button": "polymerelements/paper-icon-button#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

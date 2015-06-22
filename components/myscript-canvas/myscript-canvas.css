@@ -1,0 +1,8 @@
+:host {
+    display: block;
+}
+canvas {
+    background:url(BackgroundPattern.png);
+    display: block;
+    /*cursor: default;*/
+}
