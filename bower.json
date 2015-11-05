@@ -3,11 +3,7 @@
   "version": "1.0.5",
   "description": "MyScript HTML5 math Element to help developer for integrate handwriting recognition",
   "keywords": [
-    "myscript",
-    "myscriptjs",
-    "myscriptwebcomponents",
-    "handwriting",
-    "recognition"
+    "deprecated"
   ],
   "main": "myscript-math.html",
   "license": "Apache-2",
